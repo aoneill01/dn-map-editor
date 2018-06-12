@@ -1,20 +1,26 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Level from './Level';
 import TilePalette from './TilePalette';
 
-class App extends Component {
+class App extends Component {  
+  state = {
+      selected: 0
+  }
+
+  selectTile = (id) => {
+    this.setState({selected: id});
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, EDIT <code>src/App.js</code> and save to reload.
-        </p>
-        <TilePalette />
+        <div className="level-wrapper">
+          <Level selectedTile={this.state.selected} />
+        </div>
+        <div className="tile-palette-wrapper">
+          <TilePalette onSelectTile={this.selectTile} selectedTile={this.state.selected} />
+        </div>
       </div>
     );
   }

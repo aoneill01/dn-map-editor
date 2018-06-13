@@ -5,4 +5,6 @@
     transform-origin: top left;
     transform: scale(2);
     image-rendering: pixelated;
+    background-color: #7d594a;
+    width: 1024px;
 }

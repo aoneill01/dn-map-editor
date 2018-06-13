@@ -6,7 +6,7 @@ class TilePalette extends Component {
     render() {
         let tiles = [];
         for (let i = 0; i < 16 * 16; i++) {
-            tiles.push(<Tile id={i} key={i} index={i} selected={i === this.props.selectedTile}
+            tiles.push(<Tile id={i} hoverId={i} key={i} index={i} selected={i === this.props.selectedTile}
                 onClick={this.props.onSelectTile}/>);
         }
         return (

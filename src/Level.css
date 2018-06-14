@@ -2,9 +2,15 @@
     display: grid;
     grid-template-columns: repeat(64, 16px);
     grid-template-rows: repeat(80, 16px);
-    transform-origin: top left;
-    transform: scale(2);
-    image-rendering: pixelated;
     background-color: #7d594a;
     width: 1024px;
+    user-select: none;
+}
+
+@media only screen and (min-width: 900px) {
+    .level {
+        transform-origin: top left;
+        transform: scale(2);
+        image-rendering: pixelated;
+    }
 }

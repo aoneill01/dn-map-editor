@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Level from './Level';
-import TilePalette from './TilePalette';
+import Level from '../Level';
+import TilePalette from '../TilePalette';
 
 class App extends Component {  
   state = {

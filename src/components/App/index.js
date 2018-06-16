@@ -3,7 +3,7 @@ import './App.css';
 import Level from '../Level';
 import TilePalette from '../TilePalette';
 import DrawMode from '../DrawMode'
-import { initTileValues, setTile } from '../../utils';
+import { initTileValues, setTile, autoDrawGround } from '../../utils';
 
 class App extends Component {  
   state = {
@@ -26,14 +26,14 @@ class App extends Component {
   }
 
   handleLevelSelectTile = (rowIndex, colIndex) => {
-    this.setState(s => ({ rowValues: setTile(s.rowValues, rowIndex, colIndex, s.selected) }));
+    this.setState(s => ({ rowValues: s.mode === 'draw' ? setTile(s.rowValues, rowIndex, colIndex, s.selected) : autoDrawGround(s.rowValues, rowIndex, colIndex) }));
   }
 
   render() {
     return (
       <div className="App">
         <div className="level-wrapper">
-          <Level selectedTile={this.state.selected} onSelectTile={this.handleLevelSelectTile}
+          <Level selectedTile={this.state.mode === 'auto' ? 17 : this.state.selected} onSelectTile={this.handleLevelSelectTile}
             rowValues={this.state.rowValues} highContrast={this.state.background === 'high'} />
         </div>
         <div>

@@ -1,24 +1,15 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import TileRow from '../TileRow';
-import { initTileValues } from '../../utils';
 import './Level.css';
 
-class Level extends Component {
-    state = {
-        rowValues: initTileValues
-    };
-
-    selectTile = (rowIndex, colIndex) => {
-        this.setState(s => ({ rowValues: s.rowValues.set(rowIndex, s.rowValues.get(rowIndex).set(colIndex, this.props.selectedTile)) }));
-    }
-
+class Level extends PureComponent {
     render() {
         return (
-            <div className="level">
-                {this.state.rowValues.map((value, index) =>
+            <div className={ this.props.highContrast ? 'level high' : 'level' }>
+                {this.props.rowValues.map((value, index) =>
                     <TileRow index={index} key={index}
                         tileValues={value}
-                        onClick={this.selectTile} hoverId={this.props.selectedTile} />
+                        onClick={this.props.onSelectTile} hoverId={this.props.selectedTile} />
                 )}
             </div>
         );

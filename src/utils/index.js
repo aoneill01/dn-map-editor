@@ -10,3 +10,7 @@ export function parseTileValues(value) {
     }
     return result;
 }
+
+export function setTile(rowValues, rowIndex, colIndex, value) {
+    return rowValues.set(rowIndex, rowValues.get(rowIndex).set(colIndex, value));
+}

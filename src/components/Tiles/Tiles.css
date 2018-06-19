@@ -1,0 +1,4 @@
+.tiles {
+    display: grid;
+    user-select: none;
+}

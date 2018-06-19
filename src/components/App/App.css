@@ -7,3 +7,27 @@
   max-height: 100vh;
   overflow: scroll;
 }
+
+.palette {
+  grid-gap: 1px 1px;
+}
+
+.level {
+  width: 1024px;
+}
+
+.level.normal {
+  background-color: #7d594a;
+}
+
+.level.high {
+  background-color: #66ff8c;
+}
+
+@media only screen and (min-width: 900px) {
+  .level {
+      transform-origin: top left;
+      transform: scale(2);
+      image-rendering: pixelated;
+  }
+}

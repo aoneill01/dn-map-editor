@@ -1,20 +1,43 @@
 import React, { Component } from 'react';
 import './App.css';
-import Level from '../Level';
-import TilePalette from '../TilePalette';
+import Tiles from '../Tiles';
 import DrawMode from '../DrawMode'
-import { initTileValues, setTile, autoDrawGround } from '../../utils';
+import { initTileValues, setTile, getTile, autoDrawGround } from '../../utils';
+import { List } from 'immutable';
 
-class App extends Component {  
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.palette = List();
+
+    for (let i = 0; i < 16; i++) {
+      this.palette = this.palette.push(List(Array.from({length: 16}, (v, k) => i * 16 + k)));
+    }
+  }
+
   state = {
       selected: 0,
       mode: 'draw',
       background: 'normal',
-      rowValues: initTileValues
+      rowValues: initTileValues,
+      savedRowValues: initTileValues
   }
 
-  handlePaletteSelectTile = (id) => {
-    this.setState({selected: id});
+  levelHoverTile = (rowIndex, colIndex) => {
+    if (this.state.mode === 'auto') {
+      let newLevel = autoDrawGround(this.state.savedRowValues, rowIndex, colIndex);
+      this.setState({rowValues: newLevel});
+      return getTile(newLevel, rowIndex, colIndex);
+    }
+    
+    return this.state.selected;
+  }
+
+  paletteHoverTile = (rowIndex, colIndex) => getTile(this.palette, rowIndex, colIndex);
+
+  handlePaletteSelectTile = (rowIndex, colIndex) => {
+    this.setState({selected: this.palette.get(rowIndex).get(colIndex)});
   }
 
   handleModeChange = (mode) => {
@@ -26,20 +49,22 @@ class App extends Component {
   }
 
   handleLevelSelectTile = (rowIndex, colIndex) => {
-    this.setState(s => ({ rowValues: s.mode === 'draw' ? setTile(s.rowValues, rowIndex, colIndex, s.selected) : autoDrawGround(s.rowValues, rowIndex, colIndex) }));
+    const calcNewRowValues = (s) => s.mode === 'draw' ? setTile(s.savedRowValues, rowIndex, colIndex, s.selected) : autoDrawGround(s.savedRowValues, rowIndex, colIndex);
+    this.setState(s => ({ savedRowValues: calcNewRowValues(s), rowValues: calcNewRowValues(s) }));
   }
 
   render() {
     return (
       <div className="App">
         <div className="level-wrapper">
-          <Level selectedTile={this.state.mode === 'auto' ? 17 : this.state.selected} onSelectTile={this.handleLevelSelectTile}
+          <Tiles className={ `level ${this.state.background}`} hoverTile={this.levelHoverTile} onSelectTile={this.handleLevelSelectTile}
             rowValues={this.state.rowValues} highContrast={this.state.background === 'high'} />
         </div>
         <div>
           <DrawMode mode={this.state.mode} background={this.state.background} 
             onModeChange={this.handleModeChange} onBackgroundChange={this.handleBackgroundChange} />
-          <TilePalette onSelectTile={this.handlePaletteSelectTile} selectedTile={this.state.selected} />
+          <Tiles className="palette" rowValues={this.palette} hoverTile={this.paletteHoverTile}
+            onSelectTile={this.handlePaletteSelectTile} selectedTile={this.state.selected} />
         </div>
       </div>
     );

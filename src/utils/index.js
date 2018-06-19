@@ -17,7 +17,8 @@ export function setTile(rowValues, rowIndex, colIndex, value) {
 }
 
 export function getTile(rowValues, rowIndex, colIndex) {
-    return rowValues.get(rowIndex).get(colIndex);
+    const row = rowValues.get(rowIndex);
+    return (row ? row.get(colIndex) : undefined);
 }
 
 export function isGround(value) {

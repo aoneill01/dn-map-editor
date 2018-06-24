@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "clipboard-copy": "^2.0.0",
     "immutable": "^3.8.2",
     "rambda": "^1.1.4",
     "react": "^16.4.0",

@@ -62,7 +62,8 @@ class App extends Component {
         </div>
         <div>
           <DrawMode mode={this.state.mode} background={this.state.background} 
-            onModeChange={this.handleModeChange} onBackgroundChange={this.handleBackgroundChange} />
+            onModeChange={this.handleModeChange} onBackgroundChange={this.handleBackgroundChange} 
+            rowValues={this.state.rowValues} />
           <Tiles className="palette" rowValues={this.palette} hoverTile={this.paletteHoverTile}
             onSelectTile={this.handlePaletteSelectTile} selectedTile={this.state.selected} />
         </div>

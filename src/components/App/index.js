@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Tiles from '../Tiles';
 import DrawMode from '../DrawMode'
-import { initTileValues, setTile, getTile, autoDrawGround } from '../../utils';
+import { initTileValues, parseTileValues, setTile, getTile, autoDrawGround } from '../../utils';
 import { List } from 'immutable';
 
 class App extends Component {
@@ -53,6 +53,10 @@ class App extends Component {
     this.setState(s => ({ savedRowValues: calcNewRowValues(s), rowValues: calcNewRowValues(s) }));
   }
 
+  handleMapUpload = (map) => {
+    this.setState(s => ({ savedRowValues: parseTileValues(map), rowValues: parseTileValues(map) }));
+  }
+
   render() {
     return (
       <div className="App">
@@ -63,7 +67,7 @@ class App extends Component {
         <div>
           <DrawMode mode={this.state.mode} background={this.state.background} 
             onModeChange={this.handleModeChange} onBackgroundChange={this.handleBackgroundChange} 
-            rowValues={this.state.rowValues} />
+            onMapUpload={this.handleMapUpload} rowValues={this.state.rowValues} />
           <Tiles className="palette" rowValues={this.palette} hoverTile={this.paletteHoverTile}
             onSelectTile={this.handlePaletteSelectTile} selectedTile={this.state.selected} />
         </div>

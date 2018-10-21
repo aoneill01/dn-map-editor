@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import * as copy from 'clipboard-copy';
-import { hitType } from '../../utils';
+import * as download from 'downloadjs';
 
 class DrawMode extends PureComponent {
     handleModeChange = (event) => {
@@ -11,14 +11,25 @@ class DrawMode extends PureComponent {
         this.props.onBackgroundChange(event.target.value);
     }
 
-    handleMapCopy = () => {
+    handleMapDownload = () => {
         copy(JSON.stringify(this.props.rowValues.map(r => r.toJS()).toJS()).replace(/\[/g,'{').replace(/\]/g,'}'));
+
+        const data = new Uint8Array(this.props.rowValues.size * this.props.rowValues.get(0).size);
+        this.props.rowValues.map(r => r.toJS()).toJS().flat().forEach((value, index) => data[index] = value);
+        download(data, 'level1.dnl', 'binary/octet-stream');
     }
 
-    handleHitTypeCopy = () => {
-        copy(JSON.stringify(this.props.rowValues.map(r => r.map(hitType).toJS()).toJS()).replace(/\[/g,'{').replace(/\]/g,'}'));
+    handleMapUpload = (files) => {
+        if (files.length === 1) {
+            console.log(files[0]);
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.props.onMapUpload(new Uint8Array(e.target.result));
+            };
+            reader.readAsArrayBuffer(files[0]);
+        }
     }
-    
+
     render() {
         return (
             <React.Fragment>
@@ -37,8 +48,8 @@ class DrawMode extends PureComponent {
                     </select>
                 </div>
                 <div>
-                    <button onClick={this.handleMapCopy}>Copy Map</button>
-                    <button onClick={this.handleHitTypeCopy}>Copy Hit Map</button>
+                    <button onClick={this.handleMapDownload}>Download</button>
+                    <input ref={this.setFileInputRef} type="file" onChange={(e) => this.handleMapUpload(e.target.files)} />
                 </div>
             </React.Fragment>
         );

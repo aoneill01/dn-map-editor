@@ -81,13 +81,3 @@ export function fixGroundTile(rowIndex, colIndex) {
         return setTile(rowValues, rowIndex, colIndex, 17);
     }
 }
-
-export function hitType(value) {
-    // Spike
-    if ([67, 68, 69, 84, 100, 115, 116, 117].includes(value)) return 2;
-    // Empty
-    if (value === 21) return 0;
-    // Left half of tiles
-    if ((value % 16) < 8) return 1;
-    return 0;
-}

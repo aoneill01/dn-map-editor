@@ -5,9 +5,9 @@
   "dependencies": {
     "downloadjs": "^1.4.7",
     "immutable": "^3.8.2",
-    "rambda": "^1.1.4",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0",
+    "ramda": "^0.25.0",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
     "react-scripts": "1.1.4"
   },
   "scripts": {

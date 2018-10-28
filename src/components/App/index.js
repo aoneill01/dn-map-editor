@@ -83,7 +83,7 @@ class App extends Component {
   }
 
   handleMapUpload = (map) => {
-    this.setState(s => ({ savedRowValues: parseTileValues(map), rowValues: parseTileValues(map) }));
+    this.setState({ savedRowValues: parseTileValues(map), rowValues: parseTileValues(map) });
   }
 
   render() {

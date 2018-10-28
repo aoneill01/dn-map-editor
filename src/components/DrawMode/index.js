@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react';
-import * as copy from 'clipboard-copy';
 import * as download from 'downloadjs';
 
 class DrawMode extends PureComponent {
+    state = {
+        downloadFileName: 'level.dnl'
+    }
+
     handleModeChange = (event) => {
         this.props.onModeChange(event.target.value);
     }
@@ -12,21 +15,19 @@ class DrawMode extends PureComponent {
     }
 
     handleMapDownload = () => {
-        copy(JSON.stringify(this.props.rowValues.map(r => r.toJS()).toJS()).replace(/\[/g,'{').replace(/\]/g,'}'));
-
         const data = new Uint8Array(this.props.rowValues.size * this.props.rowValues.get(0).size);
         this.props.rowValues.map(r => r.toJS()).toJS().flat().forEach((value, index) => data[index] = value);
-        download(data, 'level1.dnl', 'binary/octet-stream');
+        download(data, this.state.downloadFileName, 'binary/octet-stream');
     }
 
     handleMapUpload = (files) => {
         if (files.length === 1) {
-            console.log(files[0]);
             const reader = new FileReader();
             reader.onload = (e) => {
                 this.props.onMapUpload(new Uint8Array(e.target.result));
             };
             reader.readAsArrayBuffer(files[0]);
+            this.setState({ downloadFileName: files[0].name });
         }
     }
 

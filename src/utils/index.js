@@ -16,6 +16,17 @@ export function setTile(rowValues, rowIndex, colIndex, value) {
     return rowValues.set(rowIndex, rowValues.get(rowIndex).set(colIndex, value));
 }
 
+export function fillTiles(rowValues, rowIndex, colIndex, value, initialRowIndex, initialColIndex) {
+    const topLeft = { rowIndex: Math.min(initialRowIndex, rowIndex), colIndex: Math.min(initialColIndex, colIndex) };
+    const bottomRight = { rowIndex: Math.max(initialRowIndex, rowIndex), colIndex: Math.max(initialColIndex, colIndex) };
+    for (var r = topLeft.rowIndex; r <= bottomRight.rowIndex; r++) {
+        for (var c = topLeft.colIndex; c <= bottomRight.colIndex; c++) {
+            rowValues = setTile(rowValues, r, c, value);
+        }
+    }
+    return rowValues;
+}
+
 export function getTile(rowValues, rowIndex, colIndex) {
     const row = rowValues.get(rowIndex);
     return (row ? row.get(colIndex) : undefined);

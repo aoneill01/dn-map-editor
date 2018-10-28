@@ -7,7 +7,7 @@ const tilesPerRow = 16;
 
 class Tiles extends PureComponent {
     render() {
-        const { rowValues, className, onSelectTile, selectedTile, hoverTile } = this.props;
+        const { rowValues, className, onSelectTile, onUp = (row, col) => { }, selectedTile, hoverTile } = this.props;
         const rowCount = rowValues.size;
         const colCount = rowValues.get(0).size;
         const style = {
@@ -19,7 +19,8 @@ class Tiles extends PureComponent {
                 {rowValues.map((value, index) =>
                     <TileRow rowIndex={index} key={index}
                         tileValues={value} selectedTile={selectedTile}
-                        onClick={onSelectTile} hoverTile={hoverTile} />
+                        onClick={onSelectTile}
+                        onUp={onUp} hoverTile={hoverTile} />
                 )}
             </div>
         );
@@ -35,7 +36,8 @@ class TileRow extends PureComponent {
                 {this.props.tileValues.map((value, index) =>
                     <Tile tile={value} rowIndex={this.props.rowIndex} colIndex={index} 
                         key={index} selected={ selectedTile === value }
-                        onClick={this.props.onClick} hoverTile={hoverTile} />
+                        onClick={this.props.onClick}
+                        onUp={this.props.onUp} hoverTile={hoverTile} />
                 )}
             </React.Fragment>
         );
@@ -58,6 +60,10 @@ class Tile extends PureComponent {
 
     handleLeave = (e) => {
         this.setState({ hover: false });
+    }
+
+    handleUp = (e) => {
+        this.props.onUp(this.props.rowIndex, this.props.colIndex);
     }
 
     render() {
@@ -83,8 +89,8 @@ class Tile extends PureComponent {
             })
         }
         return (
-            <div style={styles} onClick={this.handleClick} onMouseDown={this.handleClick}
-                onMouseEnter={this.handleEnter} onMouseLeave={this.handleLeave}></div>
+            <div style={styles} onMouseDown={this.handleClick}
+                onMouseUp={this.handleUp} onMouseEnter={this.handleEnter} onMouseLeave={this.handleLeave}></div>
         );
     }
 }

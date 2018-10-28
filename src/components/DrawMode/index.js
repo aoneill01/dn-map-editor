@@ -38,6 +38,7 @@ class DrawMode extends PureComponent {
                     <select value={this.props.mode} onChange={this.handleModeChange}>
                         <option value="draw">Draw</option>
                         <option value="auto">Auto</option>
+                        <option value="rect">Rect</option>
                     </select>
                 </div>
                 <div>
